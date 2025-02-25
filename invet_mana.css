@@ -1,0 +1,210 @@
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #f4f4f4;
+    margin: 20px;
+}
+
+/* Heading Styling */
+h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Container Styles */
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Form Styling */
+form {
+    margin-bottom: 15px;
+    padding: 15px;
+    background: #e8e8e8;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Input Fields & Buttons */
+input, select {
+    padding: 8px;
+    margin: 6px;
+    width: calc(100% - 20px);
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Styling for Buttons */
+button {
+    padding: 4px 8px;
+    margin: 4px;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+    background: #6a4c93;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+}
+
+button:hover {
+    background: #6a4c93;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+}
+
+th {
+    background: #6a4c93;
+    color: white;
+    font-weight: bold;
+}
+
+td {
+    background: #f9f9f9;
+}
+
+/* Low Stock Warning */
+.low-stock {
+    background: #ffcccc;
+    font-weight: bold;
+}
+
+/* Hover Effect for Table Rows */
+tr:hover {
+    background: #f1f1f1;
+}
+
+/* Compact Edit and Delete Buttons */
+.action-buttons {
+    display: flex;
+    gap: 3px;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-btn, .delete-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+    border: none;
+}
+
+.edit-btn {
+    background: #008000; /* Pure Green */
+    color: white;
+}
+
+.edit-btn:hover {
+    background: #006400;
+}
+
+.delete-btn {
+    background: #FF0000; /* Pure Red */
+    color: white;
+}
+
+.delete-btn:hover {
+    background: #B22222;
+}
+
+/* Back to Inventory Button */
+.back-btn {
+    background: #6c757d;
+    color: white;
+    margin-top: 15px;
+}
+
+.back-btn:hover {
+    background: #5a6268;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        margin: 10px;
+    }
+
+    .container {
+        padding: 10px;
+        margin: 10px;
+    }
+
+    form {
+        padding: 10px;
+    }
+
+    input, select, button {
+        width: 100%;
+    }
+
+    .action-buttons {
+        flex-direction: row;
+        gap: 5px;
+        justify-content: center;
+    }
+}
+
+/* Utility Classes */
+.alert {
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.low-stock {
+    background-color: #ffcccc;
+    color: red;
+    font-weight: bold;
+}
+
+
+.small-back-btn {
+    position: absolute;
+    top: 80px; /* Adjust as needed */
+    right: 20px;
+    padding: 5px 10px;
+    font-size: 12px;
+    background: #fa0606;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.small-back-btn:hover {
+    background: #fa0606;
+}

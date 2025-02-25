@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 100%; /* Remove max-width restriction to ensure full page width */
+    width: 100%;
+    margin: 40px auto;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+input, textarea, select {
+    width: 100%; /* Make the inputs take up full width */
+    padding: 15px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    display: block;
+    box-sizing: border-box; /* Ensures input fits within the form */
+    margin-bottom: 15px; /* Adds space between inputs */
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+button {
+    background: #6a4c93;
+    color: white;
+    padding: 15px;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 100%;
+    font-size: 18px;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background: rgb(98, 9, 70);
+}
+
+.success {
+    color: green;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.error {
+    color: red;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Ensure inputs fill the screen */
+@media (min-width: 768px) {
+    form {
+        width: 90%; /* Ensure the form takes up most of the page width */
+    }
+
+    label {
+        font-size: 18px; /* Larger font size for readability */
+    }
+
+    input, textarea, select {
+        font-size: 18px; /* Larger font for inputs */
+        padding: 15px; /* More padding for a spacious feel */
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    form {
+        width: 95%; /* Form takes almost the entire screen on smaller devices */
+    }
+
+    input, textarea, select {
+        width: 100%; /* Inputs will take full width on small screens */
+    }
+
+    label {
+        font-size: 16px; /* Adjust font size for small screens */
+    }
+
+    button {
+        padding: 18px;
+        font-size: 20px;
+    }
+}

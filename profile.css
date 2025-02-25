@@ -1,0 +1,181 @@
+/* General Reset and Layout */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and Container */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-container {
+    background-color: white;
+    width: 100%;
+    max-width: 1200px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Profile Header */
+.profile-header {
+    background-size: cover;
+    background-position: center;
+    padding: 100px 30px;
+    text-align: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    position: relative;
+}
+
+/* Profile Form */
+.profile-form {
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Form Elements */
+label {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 8px;  /* Space between label and input */
+    display: inline-block; /* Ensure labels are block elements above inputs */
+}
+
+/* Improved Input Text Styles */
+input[type="text"],
+select,
+input[type="file"] {
+    padding: 12px 15px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+/* Focus Effects for Input Fields */
+input[type="text"]:focus,
+select:focus {
+    border-color: #4CAF50;
+    background-color: #fff;
+    outline: none;
+}
+
+/* Profile Image Input Styling */
+input[type="file"] {
+    border: none;
+    padding: 10px;
+    background-color: #f9f9f9;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+/* Make file input slightly larger */
+#profileImageInput {
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;  /* Make the input field as wide as other inputs */
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+/* Focus Effects for Profile Image Input */
+#profileImageInput:focus {
+    border-color: #4CAF50;
+    background-color: #fff;
+    outline: none;
+}
+
+/* Input Placeholder Styling */
+input[type="text"]::placeholder {
+    color: #888;
+    font-style: italic;
+}
+
+/* Button Styling */
+button {
+    background-color: #5c0449;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Image Preview */
+#previewImage {
+    max-width: 200px;
+    margin: 20px 0;
+    border-radius: 10px;
+}
+
+/* Success and Error Messages */
+.success-message,
+.error-message {
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.success-message {
+    background-color: #4CAF50;
+}
+
+.error-message {
+    background-color: #f44336;
+}
+
+/* Full Height for Profile Page */
+html, body {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.profile-container {
+    width: 100%;
+    height: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-container {
+        width: 90%;
+    }
+
+    .profile-header {
+        padding: 50px 20px;
+    }
+
+    .profile-form {
+        padding: 20px;
+    }
+
+    button {
+        padding: 12px;
+    }
+
+    #previewImage {
+        max-width: 150px;
+    }
+}
