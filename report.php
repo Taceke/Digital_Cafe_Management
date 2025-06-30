@@ -9,7 +9,6 @@ $chargeAmount = $company['charge_amount'];
 $vatCharge = $company['vat_charge'];
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,15 +17,20 @@ $vatCharge = $company['vat_charge'];
     <title>Admin Report - Cafeteria POS</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="script.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <style>
+        #downloadExcel {
+            background-color: #018786;
+        }
+/* 
+        .chart-container {
+    width: 100%;
+    max-width: 350px;
+    margin: 2rem auto;
+} */
 
-<style>
-    #downloadExcel{
-        background-color: #018786; 
-    }
-</style>
+    </style>
 </head>
 <body>
     <header>
@@ -39,27 +43,25 @@ $vatCharge = $company['vat_charge'];
     <main>
         <section class="table-container">
             <table>
-            <thead>
-    <tr>
-        <th>Customer</th>
-        <th>Qty</th>
-        <th>Order Date</th>
-        <th>Salesperson</th>
-        <th>Payment Method</th>
-        <th>Discount</th>
-        <th>Charge Amount (%)</th>  <!-- Updated column -->
-        <th>VAT Charge (%)</th>  <!-- Updated column -->
-        <th>Total Amount</th>
-    </tr>
-</thead>
-<tbody id="reportData">
-    <!-- Report Data Will Be Loaded Here -->
-</tbody>
-
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Qty</th>
+                        <th>Order Date</th>
+                        <th>Salesperson</th>
+                        <th>Payment Method</th>
+                        <th>Discount</th>
+                        <th>Charge Amount (%)</th>
+                        <th>VAT Charge (%)</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="reportData">
+                    <!-- Report Data Will Be Loaded Here -->
+                </tbody>
             </table>
         </section>
 
-        <!-- Sidebar Calendar -->
         <aside class="sidebar">
             <h3>📅 Select Date Range</h3>
             <label for="startDate">Start Date:</label>
@@ -67,101 +69,165 @@ $vatCharge = $company['vat_charge'];
             <label for="endDate">End Date:</label>
             <input type="date" id="endDate">
             <button id="filterButton" style="background-color: #018786;">Filter Report</button>
-            </aside>
+        </aside>
+
         <section class="chart-container">
-    <canvas id="salesChart"></canvas>
-</section>
-
+            <h3 style="text-align:center">📊 Sales Distribution by Salesperson</h3>
+            <canvas id="salesPieChart" width="100" height="100"></canvas>
+            </section>
     </main>
+
     <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Ensure the fetchReportByDate function is called when the page is loaded
-    fetchAllReports(); // Load all reports on page load
-    updateDownloadLinks();
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchAllReports();
+            updateDownloadLinks();
+            fetchSalesDataForPieChart();
 
-    // Bind the Filter Report button click event
-    const filterButton = document.getElementById('filterButton');
-    filterButton.addEventListener('click', fetchReportByDate); // Bind the event here
-});
+            document.getElementById('filterButton').addEventListener('click', fetchReportByDate);
+            document.getElementById("startDate").addEventListener("change", updateDownloadLinks);
+            document.getElementById("endDate").addEventListener("change", updateDownloadLinks);
+        });
 
-function fetchAllReports() {
-    $.ajax({
-        url: "fetch_report.php",
-        type: "POST",
-        success: function(response) {
-            console.log("Initial Report Loaded");
-            $("#reportData").html(response);
-        },
-        error: function() {
-            alert("Error loading initial report data.");
+        function fetchAllReports() {
+            $.ajax({
+                url: "fetch_report.php",
+                type: "GET",
+                success: function(response) {
+                    $("#reportData").html(response);
+                },
+                error: function() {
+                    alert("Error loading all reports.");
+                }
+            });
         }
-    });
-}
 
-function fetchReportByDate() {
-    let startDate = document.getElementById("startDate").value;
-    let endDate = document.getElementById("endDate").value;
+        function fetchReportByDate() {
+            let startDate = document.getElementById("startDate").value;
+            let endDate = document.getElementById("endDate").value;
 
-    if (!startDate || !endDate) {
-        console.warn("Please select both start and end dates.");
-        return;
-    }
+            if (!startDate || !endDate) {
+                console.warn("Please select both start and end dates.");
+                return;
+            }
 
-    console.log("Fetching report for:", startDate, "to", endDate);
+            $.ajax({
+                url: "fetch_report.php",
+                type: "POST",
+                data: { start_date: startDate, end_date: endDate },
+                success: function(response) {
+                    if (!response.trim()) {
+                        $("#reportData").html(`
+                            <tr>
+                                <td colspan='9' style='text-align:center; font-weight: bold; color: red;'>
+                                    NO DATA IS RECORDED IN THIS DATE
+                                </td>
+                            </tr>
+                        `);
+                    } else {
+                        $("#reportData").html(response);
+                    }
+                },
+                error: function() {
+                    alert("Error fetching report data.");
+                }
+            });
 
-    $.ajax({
-        url: "fetch_report.php",
-        type: "POST",
-        data: { start_date: startDate, end_date: endDate },
-        success: function(response) {
-            console.log("Server Response:", response.trim());
+            updateDownloadLinks();
+        }
 
-            if (!response.trim()) {
-                $("#reportData").html(`
-                    <tr>
-                        <td colspan='9' style='text-align:center; font-weight: bold; color: red;'>
-                            NO DATA IS RECORDED IN THIS DATE
-                        </td>
-                    </tr>
-                `);
+        function updateDownloadLinks() {
+            let startDate = document.getElementById("startDate").value;
+            let endDate = document.getElementById("endDate").value;
+
+            let excelLink = document.getElementById("downloadExcel");
+            let pdfLink = document.getElementById("downloadpdf");
+
+            let baseExcelURL = "download_report.php";
+            let basePDFURL = "downloadpdf.php";
+
+            if (startDate && endDate) {
+                excelLink.href = `${baseExcelURL}?start_date=${startDate}&end_date=${endDate}`;
+                pdfLink.href = `${basePDFURL}?start_date=${startDate}&end_date=${endDate}`;
             } else {
-                $("#reportData").html(response);
+                excelLink.href = baseExcelURL;
+                pdfLink.href = basePDFURL;
+            }
+        }
+
+        function fetchSalesDataForPieChart() {
+            $.ajax({
+                url: "fetch_chart_data.php", // ✅ Correct filename
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    renderSalesPieChart(data);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading pie chart data:", error);
+                    alert("Failed to load pie chart data.");
+                }
+            });
+        }
+        function renderSalesPieChart(data) {
+    const ctx = document.getElementById('salesPieChart').getContext('2d');
+
+    const labels = data.map(item => item.salesperson);
+    const values = data.map(item => item.total_orders);
+
+    // Calculate total orders
+    const totalOrders = values.reduce((a, b) => a + b, 0);
+
+    // Add 'Total Orders' as an extra slice
+    labels.push('Total Orders');
+    values.push(totalOrders);
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: values,
+                backgroundColor: [
+                    ...labels.slice(0, -1).map((_, i) => i % 2 === 0 ? 'red' : 'yellow'),
+                    'green'  // Green for 'Total Orders'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                datalabels: {
+                    formatter: (value, context) => {
+                        let total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                        let percentage = (value / total * 100).toFixed(1);
+                        return percentage + '%';
+                    },
+                    color: '#000',
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    }
+                },
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            let value = context.parsed;
+                            let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            let percentage = (value / total * 100).toFixed(1);
+                            return `${label}: ${value} orders (${percentage}%)`;
+                        }
+                    }
+                }
             }
         },
-        error: function() {
-            alert("Error fetching report data.");
-        }
+        plugins: [ChartDataLabels]
     });
-
-    updateDownloadLinks(); // Update download links after filtering
 }
 
-function updateDownloadLinks() {
-    let startDate = document.getElementById("startDate").value;
-    let endDate = document.getElementById("endDate").value;
-
-    let excelLink = document.getElementById("downloadExcel");
-    let pdfLink = document.getElementById("downloadpdf");
-
-    let baseExcelURL = "download_report.php";
-    let basePDFURL = "downloadpdf.php";
-
-    if (startDate && endDate) {
-        excelLink.href = `${baseExcelURL}?start_date=${startDate}&end_date=${endDate}`;
-        pdfLink.href = `${basePDFURL}?start_date=${startDate}&end_date=${endDate}`;
-    } else {
-        excelLink.href = baseExcelURL;
-        pdfLink.href = basePDFURL;
-    }
-}
-
-// Attach event listeners for start and end date changes
-document.getElementById("startDate").addEventListener("change", updateDownloadLinks);
-document.getElementById("endDate").addEventListener("change", updateDownloadLinks);
-
-
-
-</script>
-
+    </script>
 </body>
 </html>

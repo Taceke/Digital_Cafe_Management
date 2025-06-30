@@ -55,6 +55,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $updateStmt->bind_param("is", $quantity, $product_name);
             $updateStmt->execute();
             $updateStmt->close();
+
+            // Fetch the raw materials required for this product
+            $ingredientQuery = $conn->prepare("
+                SELECT material_id, quantity_required 
+                FROM product_ingredients 
+                WHERE product_id = (SELECT id FROM product_added WHERE name = ?)
+            ");
+            $ingredientQuery->bind_param("s", $product_name);
+            $ingredientQuery->execute();
+            $ingredientsResult = $ingredientQuery->get_result();
+
+            while ($ingredient = $ingredientsResult->fetch_assoc()) {
+                $material_id = $ingredient['material_id'];
+                $required_qty = $ingredient['quantity_required'] * $quantity; // Calculate total needed amount
+
+                // Deduct raw materials from inventory
+                $updateMaterialStmt = $conn->prepare("UPDATE raw_materials SET quantity = quantity - ? WHERE id = ?");
+                $updateMaterialStmt->bind_param("di", $required_qty, $material_id);
+                $updateMaterialStmt->execute();
+                $updateMaterialStmt->close();
+            }
+
+            $ingredientQuery->close();
         }
 
         // Insert summary into sales_report
@@ -74,5 +97,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     exit();
 }
-
 ?>

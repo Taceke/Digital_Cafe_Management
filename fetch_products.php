@@ -3,7 +3,9 @@ include 'db_connect.php'; // Include your database connection file
 
 $category = isset($_GET['category']) ? $_GET['category'] : 'All';
 
-$sql = "SELECT id, name, category, price, image, description, quantity FROM product_added";
+// Add 'unit' to the selected fields
+$sql = "SELECT id, name, category, price, image, description, quantity, unit FROM product_added";
+
 if ($category !== 'All') {
     $sql .= " WHERE category = ?";
 }

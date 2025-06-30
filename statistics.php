@@ -87,7 +87,9 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cash Register Pro</title>
+    <title>Staff cafeteria</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <script defer src="order.js"></script>
     <style>
         .wrapper {
@@ -117,13 +119,97 @@ if (session_status() === PHP_SESSION_NONE) {
         nav a:hover {
             color: #ffcc00;
         }
+        .card {
+    transition: transform 0.2s ease-in-out;
+  }
+  .card:hover {
+    transform: scale(1.02);
+  }
+
+   /* Existing styles for totals */
+   .stat-card {
+    border-radius: 12px;
+    padding: 25px 20px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    color: white;
+  }
+
+  .total-sales {
+    background: linear-gradient(135deg, #4a90e2, #357ABD);
+  }
+
+  .total-products {
+    background: linear-gradient(135deg, #f2994a, #f2c94c);
+  }
+
+  .stat-card h5 {
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  .stat-card h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  /* New styles for Sales by Category section */
+  h3 {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #4a90e2;
+    padding-bottom: 8px;
+    letter-spacing: 1.2px;
+  }
+
+  .table-responsive {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  }
+
+  table {
+    background: white;
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Adds vertical spacing between rows */
+    width: 100%;
+  }
+
+  thead tr {
+    background: #4a90e2;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+  }
+
+  tbody tr {
+    background: #f9f9f9;
+    transition: background-color 0.3s ease;
+    border-radius: 10px;
+  }
+
+  tbody tr:hover {
+    background-color: #d6e5fd;
+  }
+
+  tbody td {
+    padding: 15px 20px;
+    font-weight: 600;
+    color: #555;
+    border-bottom: none !important;
+  }
     </style>
 </head>
 <body>
     
     <div class="wrapper">
         <header>
-            <h1>Cash Register Pro</h1>
+            <h1>Staff Cafeteria</h1>
             <nav>
                 <a href="cashier_dashboard.php">Home</a>
                 <!-- <a href="report.php">Report</a> -->
@@ -164,12 +250,100 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Sales Statistics</h1>
+<style>
+  .stat-card {
+    border-radius: 12px;
+    padding: 25px 20px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    color: white;
+  }
 
-    <h2>Total Sales: <?php echo number_format($totalSales, 2); ?> ETB</h2>
-    <h2>Total Products Sold: <?php echo $totalProductsSold; ?></h2>
+  .total-sales {
+    background: linear-gradient(135deg, #4a90e2, #357ABD); /* Bright blue */
+  }
 
-    <h3>Sales by Category</h3>
+  .total-products {
+    background: linear-gradient(135deg, #f2994a, #f2c94c); /* Warm orange-yellow */
+  }
+
+  .stat-card h5 {
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  .stat-card h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  h1.fw-bold.text-dark.display-5 {
+  background: linear-gradient(135deg, #4a90e2 0%, #357ABD 100%);
+  color: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(54, 112, 183, 0.5);
+  display: inline-block;
+  user-select: none;
+  letter-spacing: 2px;
+}
+
+</style>
+
+<div class="container mt-5">
+
+  <div class="text-center mb-5">
+    <h1 class="fw-bold text-dark display-5" >📊 Sales Statistics</h1>
+  </div>
+
+  <div class="row text-center mb-4">
+    <!-- Total Sales -->
+    <div class="col-md-6 mb-3">
+      <div class="stat-card total-sales">
+        <h5>Total Sales</h5>
+        <h2>
+          <?php echo number_format($totalSales, 2); ?> ETB
+        </h2>
+      </div>
+    </div>
+
+    <!-- Total Products Sold -->
+    <div class="col-md-6 mb-3">
+      <div class="stat-card total-products">
+        <h5>Total Products Sold</h5>
+        <h2>
+          <?php echo $totalProductsSold; ?>
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <h3 class="text-dark mb-3 border-bottom pb-2">Sales by Category</h3>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered align-middle">
+        <thead class="table-primary">
+          <tr>
+            <th>Category</th>
+            <th>Total Sales (ETB)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($salesByCategory as $category): ?>
+            <tr>
+              <td><?php echo htmlspecialchars($category['category']); ?></td>
+              <td><?php echo number_format($category['category_sales'], 2); ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
     <table>
         <thead>
             <tr>

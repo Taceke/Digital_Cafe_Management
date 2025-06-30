@@ -26,12 +26,18 @@ if (isset($_POST['update_product'])) {
 // Delete product
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
+
+    // First, delete from product_ingredients where product_id = $id
+    $conn->query("DELETE FROM product_ingredients WHERE product_id=$id");
+
+    // Then delete from product_added
     if ($conn->query("DELETE FROM product_added WHERE id=$id") === TRUE) {
         $message = "<p class='success'>Product deleted successfully!</p>";
     } else {
         $message = "<p class='error'>Error deleting product: " . $conn->error . "</p>";
     }
 }
+
 
 // Fetch all products
 $result = $conn->query("SELECT * FROM product_added");

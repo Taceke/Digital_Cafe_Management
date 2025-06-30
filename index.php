@@ -1,36 +1,74 @@
 <?php
 session_start();
 $error = isset($_SESSION['error']) ? $_SESSION['error'] : "";
-unset($_SESSION['error']); // Clear error after displaying
+unset($_SESSION['error']);
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Login System</title>
-    <link rel="stylesheet" href="log.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* Background gradient */
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 800px; /* Almost full width */
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 0; /* Perfect rectangle */
+            padding: 20px 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
-    
-    <div class="login-container" style="align-items: center;">
-        <h2>Login System</h2>
+
+    <div class="login-container">
+        <h2 class="text-center mb-4">Login System</h2>
+
         <?php if (!empty($error)): ?>
-            <p style="color: red;"><?php echo $error; ?></p>
+            <div class="alert alert-danger text-center">
+                <?php echo $error; ?>
+            </div>
         <?php endif; ?>
-        <form action="login.php" method="POST">
-            <div class="input-group">
-                <label for="username">Username</label>
-                <input  type="text" id="username" name="username" required>
+
+        <form action="login.php" method="POST" class="row g-3">
+            <div class="col-md-6">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-control" required>
             </div>
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+
+            <div class="col-md-6">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
             </div>
-            <div class="forgot-container">
-                <a href="forgot_password.php" class="forgot">Forgot password</a>
+
+            <div class="col-12 text-end">
+                <a href="forgot_password.php" class="text-decoration-none">Forgot password?</a>
             </div>
-            <button type="submit">Login</button>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </div>
         </form>
     </div>
-<script src="log.js"></script>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -5,21 +5,21 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     role ENUM('admin', 'cashier') NOT NULL
 );
-CREATE TABLE IF NOT EXISTS sales_report (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    customer VARCHAR(255) NOT NULL DEFAULT 'None',
-    qty INT NOT NULL,
-    order_date DATETIME NOT NULL,
-    salesperson VARCHAR(255) NOT NULL,
-    payment_method VARCHAR(50) NOT NULL,
-    discount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-    total_amount DECIMAL(10,2) NOT NULL
-   ALTER TABLE sales_report 
-ADD COLUMN company_id INT NOT NULL DEFAULT 1,
-ADD COLUMN charge_amount DECIMAL(5,2) NOT NULL DEFAULT 0.00,
-ADD COLUMN vat_charge DECIMAL(5,2) NOT NULL DEFAULT 0.00,
-ADD CONSTRAINT fk_company_info FOREIGN KEY (company_id) REFERENCES company_info(id);
-);
+-- CREATE TABLE IF NOT EXISTS sales_report (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     customer VARCHAR(255) NOT NULL DEFAULT 'None',
+--     qty INT NOT NULL,
+--     order_date DATETIME NOT NULL,
+--     salesperson VARCHAR(255) NOT NULL,
+--     payment_method VARCHAR(50) NOT NULL,
+--     discount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+--     total_amount DECIMAL(10,2) NOT NULL,
+--    ALTER TABLE sales_report ,
+-- ADD COLUMN company_id INT NOT NULL DEFAULT 1,
+-- ADD COLUMN charge_amount DECIMAL(5,2) NOT NULL DEFAULT 0.00,
+-- ADD COLUMN vat_charge DECIMAL(5,2) NOT NULL DEFAULT 0.00,
+-- ADD CONSTRAINT fk_company_info FOREIGN KEY (company_id) REFERENCES company_info(id);
+-- );
 
 CREATE TABLE `sales_report` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -69,7 +69,7 @@ CREATE TABLE sales (
     quantity INT NOT NULL,
     salesperson VARCHAR(255) NOT NULL,
     total DECIMAL(10,2) NOT NULL,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 );
 ------Add product COMMENT
 
@@ -80,7 +80,9 @@ CREATE TABLE product_added (
     price DECIMAL(10,2) NOT NULL,
     image VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
-    quantity INT NOT NULL DEFAULT 0
+    quantity INT NOT NULL DEFAULT 0,
+    ALTER TABLE product_added ADD COLUMN unit VARCHAR(50) NOT NULL DEFAULT 'unit';
+
 );
 
 CREATE TABLE order_items (
@@ -136,11 +138,51 @@ CREATE TABLE equipment (
     last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE purchases (
+-- CREATE TABLE purchases (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     material_id INT,
+--     quantity DECIMAL(10,2) NOT NULL,
+--     cost DECIMAL(10,2) NOT NULL,
+--     purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (material_id) REFERENCES raw_materials(id) ON DELETE CASCADE
+-- );
+
+
+-- CREATE TABLE product_material_usage (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     product_id INT NOT NULL,
+--     material_id INT NOT NULL,
+--     quantity_used DECIMAL(10,2) NOT NULL, -- Amount of raw material per product
+--     FOREIGN KEY (product_id) REFERENCES product_added(id) ON DELETE CASCADE,
+--     FOREIGN KEY (material_id) REFERENCES raw_materials(id) ON DELETE CASCADE
+-- );
+-- CREATE TABLE product_raw_materials (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     product_id INT,
+--     material_id INT,
+--     quantity_used FLOAT,  
+--     unit VARCHAR(20),  -- Added unit column (kg, g, L, etc.)
+--     FOREIGN KEY (product_id) REFERENCES product_added(id) ON DELETE CASCADE,
+--     FOREIGN KEY (material_id) REFERENCES raw_materials(id) ON DELETE CASCADE
+-- );
+-- CREATE TABLE product_raw_materials (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     product_id INT NOT NULL,
+--     material_id INT NOT NULL,
+--     quantity_used FLOAT NOT NULL,
+--     FOREIGN KEY (product_id) REFERENCES product_added(id),
+--     FOREIGN KEY (material_id) REFERENCES raw_materials(id)
+-- );
+
+
+CREATE TABLE product_ingredients (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    material_id INT,
-    quantity DECIMAL(10,2) NOT NULL,
-    cost DECIMAL(10,2) NOT NULL,
-    purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (material_id) REFERENCES raw_materials(id) ON DELETE CASCADE
+    product_id INT NOT NULL,
+    material_id INT NOT NULL,
+    quantity_required FLOAT NOT NULL,
+    unit VARCHAR(50) NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES product_added(id),
+    FOREIGN KEY (material_id) REFERENCES raw_materials(id)
 );
+
+

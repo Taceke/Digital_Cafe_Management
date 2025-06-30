@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cash Register Pro</title>
+    <title>Staff cafeteria</title>
     <script defer src="order.js"></script>
     <style>
         .wrapper {
@@ -44,13 +44,13 @@ if (session_status() === PHP_SESSION_NONE) {
     
     <div class="wrapper">
         <header>
-            <h1>Cash Register Pro</h1>
+            <h1>Staff Cafeteria </h1>
             <nav>
                 <a href="cashier_dashboard.php">Home</a>
                 <!-- <a href="report.php">Report</a> -->
                 <!-- <a href="settings.php">Settings</a> -->
                 <!-- <a href="chart.php">Chart</a> -->
-                <a href="statistics.php">Statistic</a>
+                <a href="statistics.php">order-history</a>
                 <!-- <a href="manage_product.php">Options</a> -->
                 <a href="profile.php">Profile</a>
                 <!-- <a href="admin_manage_products.php">Add Products</a> -->
@@ -84,7 +84,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cash Register Pro</title>
+    <title>S</title>Staff Cafeteria
     <link rel="stylesheet" href="page.css">
     <script defer src="order.js"></script>
    
@@ -94,12 +94,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <header>
             <!-- <h1>Cash Register Pro</h1> -->
             <nav>
-                <!-- <a href="cashier_dashboard.php">Home</a> -->
-                <!-- <a href="settings.php">Settings</a> -->
-                <!-- <a href="chart.php">Chart</a> -->
-                <!-- <a href="#">Statistic</a> -->
-                <!-- <a href="#">Options</a> -->
-                <!-- <a href="profile.php">Profile</a> -->
+               
             </nav>
             
             <!-- <div class="user-info">HI! <?php echo strtoupper($_SESSION['username']); ?> | <a href="logout.php">LOGOUT</a></div> -->
@@ -133,11 +128,11 @@ if (session_status() === PHP_SESSION_NONE) {
 
             <section class="product-section">
                 <div class="product-controls">
-                    <span>
+                    <!-- <span>
                         Sort by:
                         <select>
                             <option>Product Name</option>
-                        </select>
+                        </select> -->
                     </span>
                 </div>
                 <div class="product-list" id="product-list">
@@ -158,8 +153,8 @@ if (session_status() === PHP_SESSION_NONE) {
             <h3>Enter Details</h3>
             <label for="quantity">Quantity: </label>
             <input type="number" id="quantity" min="1" required>
-            <label for="salesperson">Salesperson Name:</label>
-            <input type="text" id="salesperson" required>
+            <!-- <label for="salesperson">Salesperson Name:</label> -->
+            <!-- <input type="text" id="salesperson" required> -->
             <div class="popup-buttons">
                 <button onclick="submitDetails()">Submit</button>
                 <button onclick="closePopup()">Cancel</button>

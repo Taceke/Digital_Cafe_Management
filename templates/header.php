@@ -44,16 +44,19 @@ if (session_status() === PHP_SESSION_NONE) {
     
     <div class="wrapper">
         <header>
-            <h1>Cash Register Pro</h1>
+            <h1>Staff Cafeteria</h1>
             <nav>
                 <a href="admin_dashboard.php">Home</a>
+               <a href="assign_ingredients.php">Assign-Ing</a>
+               <a href="view_ingredients.php">ingredient</a>
                 <a href="report.php">Report</a>
-                <a href="settings.php">Settings</a>
-                <a href="inventory.php">Inventory</a>
-                <a href="statistics.php">Statistic</a>
-                <a href="manage_product.php">Options</a>
-                <a href="profile.php">Profile</a>
+                <a href="settings.php">standard</a>
+                <a href="inventory.php">Store</a>
+                <a href="statistics.php">Order history</a>
+                <a href="manage_product.php">Manage</a>
                 <a href="admin_manage_products.php">Add Products</a>
+
+                <a href="profile.php">Profile</a>
             </nav>
             <div id="google_translate_element"></div>
 

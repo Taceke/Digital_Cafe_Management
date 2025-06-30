@@ -42,7 +42,7 @@ include './templates/header.php';
 
 <body>
 
-    <h2>Company Information</h2>
+    <h2 style="background-color:cadetblue;">Company Information</h2>
     <?php echo $message; ?>
     <form method="POST">
         <label>Company Name:</label>
