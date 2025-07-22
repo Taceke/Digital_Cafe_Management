@@ -78,7 +78,6 @@ if (session_status() === PHP_SESSION_NONE) {
                 <a href="cashier_dashboard.php">Home</a>
                 <!-- <a href="report.php">Report</a> -->
                 <!-- <a href="settings.php">Settings</a> -->
-                <!-- <a href="chart.php">Chart</a> -->
                 <a href="statistics.php">Statistic</a>
                 <!-- <a href="manage_product.php">Options</a> -->
                 <a href="profile.php">Profile</a>

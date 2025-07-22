@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
       productStock.style.color = "#ff0000";
 
       let addButton = document.createElement("button");
-      addButton.textContent = "order";
+      addButton.textContent = "+";
       addButton.style.background = "#6a4c93";
       addButton.style.color = "white";
       addButton.style.border = "none";
